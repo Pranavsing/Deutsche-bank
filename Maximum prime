@@ -1,0 +1,92 @@
+// ॐ
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ld long double
+#define pb push_back
+#define mp make_pair
+#define fr first
+#define sc second
+#define all(v) v.begin(), v.end()
+#define bac(v) v.rbegin(), v.rend()
+#define rep(i, a, b) for (ll i = a; i < b; ++i)
+#define endl '\n'
+#define precise(i) cout << fixed << setprecision(i)
+
+ll f(ll i, ll n, ll m, string &s, vector<ll> &pri, vector<vector<ll>> &dp)
+{
+    if (i == n)
+    {
+        ll sum = 0;
+        ll cn = 0;
+        ll z = m;
+        string st = "";
+        while (z > 0)
+        {
+            if ((z & 1) == 1)  
+            {
+                st += s[cn];
+            }
+            z >>= 1;
+            cn++;
+        }
+        
+        for (ll j = st.length() - 1; j >= 0; j--)
+        {
+            if (st[j] == '1')
+            {
+                sum += (1 <<(st.length()-1-j) );
+            }
+        }
+        if (pri[sum] == 0)
+        {
+            return sum;
+        }
+        return -1;
+    }
+
+    if (dp[i][m] != -1e9)
+    {
+        return dp[i][m];
+    }
+
+    ll np = f(i + 1, n, m, s, pri, dp);
+    ll pi = f(i + 1, n, m | (1 << i), s, pri, dp);
+
+    return dp[i][m] = max(pi, np);
+}
+
+ll solve(string &s,vector<ll>&pri){
+    ll n=s.length();
+    vector<vector<ll>> dp(n + 1, vector<ll>((1 << 20) + 2, -1e9));
+    return f(0, n, 0, s, pri, dp);
+}
+
+signed main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    vector<ll> pri((1 << 20) + 4, 0);
+    for (ll i = 2; i <= (1 << 20); i++)
+    {
+        if (pri[i] != 0)
+        {
+            continue;
+        }
+        ll ct = 2;
+        while (ct * i <= (1 << 20))
+        {
+            pri[ct * i] = 1;
+            ct++;
+        }
+    }
+
+    ll t;
+    cin >> t;
+    while (t--)
+    {
+        string s;
+        cin >> s;
+        cout<<solve(s,pri)<<endl;
+    }
+}
