@@ -1,0 +1,62 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int n,k,x;
+    cin>>n>>k>>x;
+    string s;
+    cin>>s;
+    vector<int>ctra(n,0);
+    vector<int>ctrb(n,0);
+    if(s[0]=='a'){
+        ctra[0]=1;
+    }
+    for(int i=1;i<n;i++){
+        if(s[i]=='a'){
+            ctra[i]=1+ctra[i-1];
+        }
+        else{
+            ctra[i]=ctra[i-1];
+        }
+    }
+    if(s[n-1]=='b'){
+        ctrb[n-1]=1;
+    }
+    for(int i=n-2;i>=0;i--){
+        ctrb[i]=ctrb[i+1];
+        if(s[i]=='b'){
+            ctrb[i]++;
+        }
+    }
+    int numa=min(ctra[n-1],k-x);
+    int numb=k-numa;
+    int ind=-1;
+    for(int i=n-1;i>=0;i--){
+        if(ctrb[i]==numb){
+            ind=i;
+            break;
+        }
+    }
+    string ans="";
+    int lefta=min(ctra[ind],numa);
+    for(int i=0;i<lefta;i++){
+        ans+='a';
+    }
+    numa=numa-lefta;
+
+    while(numa>0){
+        ans+=s[ind];
+        if(s[ind]=='a'){
+            numa--;
+        }
+        else{
+            numb--;
+        }
+        ind++;
+    }
+    for(int i=0;i<numb;i++){
+        ans+='b';
+    }
+    cout<<ans<<endl;
+    return 0;
+}
