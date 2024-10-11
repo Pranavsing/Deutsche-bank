@@ -31,10 +31,10 @@ int main(){
         int l,r;
         cin>>l>>r;
         if(l==0){
-            cout<<f[r]<<" "<<ctr++<<endl;
+            cout<<f[r]<<endl;
         }
         else{
-            cout<<(f[r]-f[l-1])<<" "<<ctr++<<endl;
+            cout<<(f[r]-f[l-1])<<endl;
         }
     }
     
