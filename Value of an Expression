@@ -1,0 +1,72 @@
+// ॐ
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ld long double
+#define pb push_back
+#define mp make_pair
+#define fr first
+#define sc second
+#define all(v) v.begin(), v.end()
+#define bac(v) v.rbegin(), v.rend()
+#define rep(i, a, b) for (ll i = a; i < b; ++i)
+#define endl '\n'
+#define precise(i) cout << fixed << setprecision(i)
+
+ll solve(ll n, ll k, vector<ll> &v, vector<ll> &fac)
+{
+    priority_queue<pair<ll, ll>> q;
+    for (ll i = 0; i < k; i++)
+    {
+        q.push({max(1LL, fac[v[i]]), i});
+    }
+    ll mn = v[q.top().second];
+    for (ll i = k; i < n; i++)
+    {
+        q.push({max(1LL, fac[v[i]]), i});
+        while (q.top().second <= i - k)
+        {
+            q.pop();
+        }
+        mn = min(mn, v[q.top().second]);
+    }
+    return mn;
+}
+
+signed main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    vector<ll> fac(1e6 + 1, 0);
+    fac[0] = 1e9;
+    fac[1] = 0;
+    ll N = 1e6;
+    for (ll i = 2; i <= N; i++)
+    {
+        if (fac[i] > 0)
+        {
+            continue;
+        }
+        ll ct = 2;
+        while (ct * i <= 1e6)
+        {
+            fac[ct * i]++;
+            ct++;
+        }
+    }
+    ll t;
+    cin >> t;
+    while (t--)
+    {
+        ll n, k;
+        cin >> n >> k;
+        vector<ll> v;
+        for (ll i = 0; i < n; i++)
+        {
+            ll x;
+            cin >> x;
+            v.pb(x);
+        }
+        cout << solve(n, k, v, fac) << endl;
+    }
+}
