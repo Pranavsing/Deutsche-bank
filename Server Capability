@@ -1,0 +1,83 @@
+// ॐ
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ld long double
+#define pb push_back
+#define mp make_pair
+#define fr first
+#define sc second
+#define all(v) v.begin(), v.end()
+#define bac(v) v.rbegin(), v.rend()
+#define rep(i, a, b) for (ll i = a; i < b; ++i)
+#define endl '\n'
+#define precise(i) cout << fixed << setprecision(i)
+ll solve(ll n, vector<ll> &a, vector<ll> &st, vector<ll> &en)
+{
+    vector<pair<ll, ll>> vs;
+    vector<pair<ll, ll>> ve;
+    for (ll i = 0; i < n; i++)
+    {
+        vs.pb({st[i], a[i]});
+    }
+    for (ll i = 0; i < n; i++)
+    {
+        ve.pb({en[i], a[i]});
+    }
+    sort(ve.begin(), ve.end());
+    sort(vs.begin(), vs.end());
+    ll sum = 0;
+    ll mx = 0;
+    ll i1 = 0;
+    ll i2 = 0;
+    while (i1 < n)
+    {
+        if (vs[i1].first <= ve[i2].first)
+        {
+            sum += vs[i1].second;
+            i1++;
+        }
+        else
+        {
+            sum -= ve[i2].second;
+            i2++;
+        }
+        mx = max(mx, sum);
+    }
+    return mx;
+}
+
+signed main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    ll t;
+    cin >> t;
+    while (t--)
+    {
+        ll n;
+        cin >> n;
+        vector<ll> a;
+        vector<ll> en;
+        vector<ll> st;
+        for (ll i = 0; i < n; i++)
+        {
+            ll x;
+            cin >> x;
+            a.pb(x);
+        }
+        for (ll i = 0; i < n; i++)
+        {
+            ll x;
+            cin >> x;
+            st.pb(x);
+        }
+        for (ll i = 0; i < n; i++)
+        {
+            ll x;
+            cin >> x;
+            en.pb(x);
+        }
+        cout << solve(n, a, st, en) << endl;
+    }
+}
