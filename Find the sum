@@ -1,0 +1,56 @@
+// ॐ
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ld long double
+#define pb push_back
+#define mp make_pair
+#define fr first
+#define sc second
+#define all(v) v.begin(), v.end()
+#define bac(v) v.rbegin(), v.rend()
+#define rep(i, a, b) for (ll i = a; i < b; ++i)
+#define endl '\n'
+#define precise(i) cout << fixed << setprecision(i)
+
+ll solve(ll n, vector<ll> &v)
+{
+    vector<ll> sm;
+    ll sum = 0;
+    sm.pb(0);
+    for (ll i = 0; i < n; i++)
+    {
+        sum += v[i];
+        sm.pb(sum);
+    }
+    ll mn = 1e9;
+    for (ll i = 0; i < n; i++)
+    {
+        if ((sm[i] % v[i]) == 0)
+        {
+            mn = min(mn, sm[i] / v[i] + sum - sm[i + 1]);
+        }
+    }
+    return mn;
+}
+
+signed main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    ll t;
+    cin >> t;
+    while (t--)
+    {
+        ll n;
+        cin >> n;
+        vector<ll> a;
+        for (ll i = 0; i < n; i++)
+        {
+            ll x;
+            cin >> x;
+            a.pb(x);
+        }
+        cout << solve(n, a) << endl;
+    }
+}
