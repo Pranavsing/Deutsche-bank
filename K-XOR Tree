@@ -1,0 +1,25 @@
+class Solution {
+public:
+    long long maximumValueSum(vector<int>& nums, int k, vector<vector<int>>& edges) {
+        long long sum=0;
+        int ctr=0;
+        int diff=1e9;
+        int n=nums.size();
+        for(int i=0;i<n;i++){
+            int x=(nums[i]^k);
+            if(x>nums[i]){
+                sum+=x;
+                ctr++;
+            }
+            else{
+                sum+=nums[i];
+            }
+            diff=min(diff,abs(x-nums[i]));
+        }
+        if(ctr%2!=0){
+            sum-=diff;
+        }
+        return sum;
+
+    }
+};
