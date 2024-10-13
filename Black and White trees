@@ -61,14 +61,15 @@ ll solve(ll n, string &s, vector<vector<ll>> v)
     // cout << endl;
     for (ll i = 0; i < n; i++)
     {
-        if (s[i] == '0')
-        {
-            sum += b[i];
-        }
-        else
-        {
-            sum += w[i];
-        }
+        sum+=b[i]*w[i];
+        // if (s[i] == '0')
+        // {
+        //     sum += b[i];
+        // }
+        // else
+        // {
+        //    sum += w[i];
+        // }
     }
     return sum;
 }
