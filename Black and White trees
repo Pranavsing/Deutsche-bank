@@ -39,7 +39,7 @@ ll f(ll nd, vector<ll> adj[], vector<ll> &vis, string &s, vector<ll> &cl, ll z)
     }
     return cl[nd] = sum;
 }
-ll solve(ll n, string &s, vector<vector<ll>> v)
+vector<ll> solve(ll n, string &s, vector<vector<ll>> v)
 {
     vector<ll> adj[n];
     for (ll i = 0; i < n - 1; i++)
@@ -53,7 +53,7 @@ ll solve(ll n, string &s, vector<vector<ll>> v)
     vector<ll> vi(n, 0);
     f(0, adj, vis, s, b, 1);
     f(0, adj, vi, s, w, 0);
-    ll sum = 0;
+    vector<ll>ans;
     // for (ll i = 0; i < n; i++)
     // {
     //     cout << "[" << i + 1 << "(" << b[i] << "," << w[i] << ")] ";
@@ -61,17 +61,9 @@ ll solve(ll n, string &s, vector<vector<ll>> v)
     // cout << endl;
     for (ll i = 0; i < n; i++)
     {
-        sum+=b[i]*w[i];
-        // if (s[i] == '0')
-        // {
-        //     sum += b[i];
-        // }
-        // else
-        // {
-        //    sum += w[i];
-        // }
+        ans.pb(b[i]*w[i]);
     }
-    return sum;
+    return ans;
 }
 
 signed main()
