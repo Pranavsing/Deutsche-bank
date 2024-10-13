@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+long long numbits(long long n){
+    long long ctr=0;
+    while(n>0){
+        ctr++;
+        n=n>>1;
+    }
+    return ctr;
+}
+
+void insert(long long v,long long x,unordered_map<long long,vector<pair<long long,long long>>>&mp){
+    long long n=numbits(v);
+    for(long long i=1;i<=n;i++){
+        long long mod=v%(1<<i);
+        mp[mod].push_back({v,x});
+    }
+}
+
+pair<long long,long long> f(long long v,unordered_map<long long,vector<pair<long long,long long>>>&mp){
+    long long n=numbits(v);
+    long long mod=v%(1<<n);
+    long long ctr=0;
+    long long sum=0;
+    if(mp.find(mod)!=mp.end()){
+        for(auto it:mp[mod]){
+            int m=it.first%(1<<n);
+            if(m==v){
+                ctr++;
+                sum+=1ll*(it.second);
+            }
+        }
+    }
+    return {ctr,sum};
+
+
+}
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int q;
+        cin>>q;
+        unordered_map<long long,vector<pair<long long,long long>>>mp;
+        while(q--){
+            long long a,v,x;
+            cin>>a>>v>>x;
+            if(a==1){
+                insert(v,x,mp);
+            }
+            else{
+                pair<long long,long long>ans=f(v,mp);
+                cout<<ans.first<<" "<<ans.second<<endl;
+            }
+
+        }
+    }
+    return 0;
+}
