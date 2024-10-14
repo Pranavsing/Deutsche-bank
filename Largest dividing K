@@ -12,40 +12,30 @@ using namespace std;
 #define rep(i, a, b) for (ll i = a; i < b; ++i)
 #define endl '\n'
 #define precise(i) cout << fixed << setprecision(i)
-
-void f(ll n, map<ll, ll> &m, set<ll> &s)
+ll solve(ll n, ll k, vector<ll> &v)
 {
-    for (ll i = 1; i * i <= n; i++)
+    ll mx = *max_element(v.begin(), v.end());
+    vector<ll> ans(mx + 1, 0);
+    map<ll, ll> mp;
+    for (ll i = 0; i < n; i++)
     {
-        if (n % i == 0)
+        mp[v[i]]++;
+    }
+    for (ll i = 1; i <= mx; i++)
+    {
+        for (ll j = i; j <= mx; j += i)
         {
-            s.insert(n / i);
-            m[n / i]++;
-            if (i != (n / i))
+            if (mp[j] > 0)
             {
-                s.insert(i);
-                m[i]++;
+                ans[i] += mp[j];
             }
         }
     }
-}
-ll solve(ll n, ll k, vector<ll> &v)
-{
-    map<ll, ll> m;
-    set<ll> s;
-    for (ll i = 0; i < n; i++)
+    for (ll i = mx; i >= 0; i--)
     {
-        f(v[i], m, s);
-    }
-    for (auto it : s)
-    {
-        v.pb(it);
-    }
-    for (ll i = v.size() - 1; i >= 0; i--)
-    {
-        if (m[v[i]] >= k)
+        if (ans[i] >= k)
         {
-            return v[i];
+            return i;
         }
     }
     return -1;
@@ -62,16 +52,18 @@ signed main()
         ll n, k;
         cin >> n >> k;
         vector<ll> v;
+        ll ct = 0;
         for (ll i = 0; i < n; i++)
         {
             ll x;
             cin >> x;
             if (x == 0)
             {
-                k--;
+                ct++;
             }
             v.pb(x);
         }
+        k -= ct;
         cout << solve(n, k, v) << endl;
     }
 }
